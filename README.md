@@ -14,3 +14,18 @@ Configure an email notification system within the CI/CD process to alert stakeho
 o	Code changes are pushed or merged
 o	The deployment is completed
 
+
+OpenWeather, GitHub API, CoinGecko, Cat Facts
+✅ Unit Testing
+Write tests for OpenWeatherAPI using unittest or pytest.
+Mock the API response so tests run without hitting the actual API.
+✅ Add Requirements
+Create a requirements.txt if not already done, to track dependencies.
+✅ Setup GitHub Actions
+Automate your test execution every time code is pushed or merged.
+✅ Add More APIs
+Expand your project by integrating 4 more APIs as per your goal.
+✅ Notification System
+Setup email or Slack notifications in the CI/CD pipeline.
+
+
