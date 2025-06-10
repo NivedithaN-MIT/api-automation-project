@@ -25,34 +25,17 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Set PYTHONPATH and run tests
+      - name: Run tests
+        env:
+          PYTHONPATH: ${{ github.workspace }}
         run: |
-          export PYTHONPATH=${{ github.workspace }}
-          echo "PYTHONPATH is $PYTHONPATH"
+          echo "PYTHONPATH is set to $PYTHONPATH"
           pytest --maxfail=1 --disable-warnings -q
 
-      # Optional: Slack Notification
-      # - name: Slack Notification
-      #   if: always()
-      #   run: |
-      #     STATUS="${{ job.status }}"
-      #     curl -X POST -H 'Content-type: application/json' \
-      #     --data "{
-      #       \"text\": \"*CI/CD job status:* ${STATUS}\nRepo: ${{ github.repository }}\nRun: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}\"
-      #     }" ${{ secrets.SLACK_WEBHOOK_URL }}
+      - name: Notify on failure (Slack or Email)
+        if: failure()
+        run: echo "❌ Tests failed - configure Slack/email here"
 
-      # Optional: Email Notification
-      # - name: Email Notification
-      #   if: always()
-      #   uses: dawidd6/action-send-mail@v3
-      #   with:
-      #     server_address: smtp.gmail.com
-      #     server_port: 465
-      #     username: ${{ secrets.EMAIL_USERNAME }}
-      #     password: ${{ secrets.EMAIL_PASSWORD }}
-      #     subject: GitHub Actions CI/CD ${{ job.status }}
-      #     to: youremail@example.com
-      #     from: ${{ secrets.EMAIL_USERNAME }}
-      #     body: |
-      #       The CI/CD job has completed with status: ${{ job.status }}.
-      #       Check the logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      - name: Notify on success (Slack or Email)
+        if: success()
+        run: echo "✅ Tests passed - configure Slack/email here"
