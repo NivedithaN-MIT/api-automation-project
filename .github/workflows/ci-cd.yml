@@ -27,5 +27,32 @@ jobs:
 
       - name: Set PYTHONPATH and run tests
         run: |
-          export PYTHONPATH="${{ github.workspace }}"
+          export PYTHONPATH=${{ github.workspace }}
+          echo "PYTHONPATH is $PYTHONPATH"
           pytest --maxfail=1 --disable-warnings -q
+
+      # Optional: Slack Notification
+      # - name: Slack Notification
+      #   if: always()
+      #   run: |
+      #     STATUS="${{ job.status }}"
+      #     curl -X POST -H 'Content-type: application/json' \
+      #     --data "{
+      #       \"text\": \"*CI/CD job status:* ${STATUS}\nRepo: ${{ github.repository }}\nRun: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}\"
+      #     }" ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      # Optional: Email Notification
+      # - name: Email Notification
+      #   if: always()
+      #   uses: dawidd6/action-send-mail@v3
+      #   with:
+      #     server_address: smtp.gmail.com
+      #     server_port: 465
+      #     username: ${{ secrets.EMAIL_USERNAME }}
+      #     password: ${{ secrets.EMAIL_PASSWORD }}
+      #     subject: GitHub Actions CI/CD ${{ job.status }}
+      #     to: youremail@example.com
+      #     from: ${{ secrets.EMAIL_USERNAME }}
+      #     body: |
+      #       The CI/CD job has completed with status: ${{ job.status }}.
+      #       Check the logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
