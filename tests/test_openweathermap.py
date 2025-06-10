@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 import os
-from apis.openweathermap import get_weather
+from apis.openweathermap import OpenWeatherAPI
 
 load_dotenv()  # Load values from .env
 
