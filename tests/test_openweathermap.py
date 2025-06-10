@@ -1,5 +1,15 @@
-import requests
+from dotenv import load_dotenv
+import os
+from apis.openweathermap import get_weather
 
-def get_weather(city, api_key):
-    url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}"
-    return requests.get(url)
+load_dotenv()  # Load values from .env
+
+def test_weather_api():
+    api_key = os.getenv("OPENWEATHER_API_KEY")
+    assert api_key is not None, "OPENWEATHER_API_KEY not set in environment"
+
+    response = get_weather("London", api_key)
+    assert response.status_code == 200
+    data = response.json()
+    assert "weather" in data
+    assert "main" in data

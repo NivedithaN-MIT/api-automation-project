@@ -1,5 +1,6 @@
-import requests
+from apis.postman_echo import get_echo
 
-def get_echo():
-    response = requests.get("https://postman-echo.com/get?foo=bar")
-    return response
+def test_postman_echo():
+    response = get_echo()
+    assert response.status_code == 200
+    assert "args" in response.json()

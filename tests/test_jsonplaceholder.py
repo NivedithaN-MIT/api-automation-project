@@ -1,4 +1,6 @@
-import requests
+from apis.jsonplaceholder import get_posts
 
-def get_posts():
-    return requests.get("https://jsonplaceholder.typicode.com/posts")
+def test_jsonplaceholder_posts():
+    response = get_posts()
+    assert response.status_code == 200
+    assert isinstance(response.json(), list)

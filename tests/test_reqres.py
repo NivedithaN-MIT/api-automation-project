@@ -1,7 +1,11 @@
-import requests
+from apis.reqres import get_users, create_user
 
-def get_users():
-    return requests.get("https://reqres.in/api/users?page=2")
+def test_reqres_get_users():
+    response = get_users()
+    assert response.status_code == 200
+    assert "data" in response.json()
 
-def create_user(name, job):
-    return requests.post("https://reqres.in/api/users", json={"name": name, "job": job})
+def test_reqres_create_user():
+    response = create_user("Niveditha", "QA")
+    assert response.status_code == 201
+    assert response.json()["name"] == "Niveditha"
