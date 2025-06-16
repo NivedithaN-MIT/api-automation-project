@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from apis.openweathermap import OpenWeatherAPI
+from apis.openweathermap import get_weather
 
 load_dotenv()
 
@@ -8,8 +8,7 @@ def test_weather_api():
     api_key = os.getenv("OPENWEATHER_API_KEY")
     assert api_key, "OPENWEATHER_API_KEY not set in environment"
 
-    weather_api = OpenWeatherAPI(api_key)
-    response = weather_api.get_weather("London")
+    response = get_weather("London", api_key)
 
     assert response.status_code == 200
     data = response.json()
