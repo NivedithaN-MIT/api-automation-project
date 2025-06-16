@@ -25,17 +25,15 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run tests
-        env:
-          PYTHONPATH: ${{ github.workspace }}
+      - name: Run tests with PYTHONPATH
         run: |
-          echo "PYTHONPATH is set to $PYTHONPATH"
+          export PYTHONPATH=$PYTHONPATH:$(pwd)
           pytest --maxfail=1 --disable-warnings -q
 
-      - name: Notify on failure (Slack or Email)
-        if: failure()
-        run: echo "❌ Tests failed - configure Slack/email here"
-
-      - name: Notify on success (Slack or Email)
-        if: success()
-        run: echo "✅ Tests passed - configure Slack/email here"
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Trigger Render deploy
+        run: |
+          curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
