@@ -6,3 +6,4 @@ gunicorn
 faker             
 httpx   
 locust
+python-dotenv
